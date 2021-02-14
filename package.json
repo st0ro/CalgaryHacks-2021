@@ -12,6 +12,7 @@
     "electron": "^11.2.3"
   },
   "dependencies": {
+    "clipboardy": "^2.3.0",
     "fs": "0.0.1-security"
   }
 }
