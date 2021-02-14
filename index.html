@@ -25,7 +25,7 @@
     <div class="w3-sidebar w3-bar-block" style="width:80px; background-color: #202225;">
         <img src="icons/home.png" class="w3-bar-item w3-button w3-hover-gray" onclick="selectView('view-home')">
         <img src="icons/calender.png" class="w3-bar-item w3-button w3-hover-gray" onclick="selectView('view-schedule')">
-        <img src="icons/unamused.png" class="w3-bar-item w3-button w3-hover-gray" onclick="addSession(new Session('SENG 471 Lecture', '2578813624', '019737', 'monday', '', '13', '0', '13', '50', 'red'))">
+        <img src="icons/gear.png" class="w3-bar-item w3-button w3-hover-gray" style="position: absolute; bottom: 0px;" onclick="addSession(new Session('SENG 471 Lecture', '2578813624', '019737', 'monday', '', '13', '0', '13', '50', 'red'))">
     </div>
     <div style="margin-left: 80px;">
         <!-- HARD CODE THE HEIGHT AND  WIDHT TO PIXELS-->
@@ -35,9 +35,8 @@
             <div class="w3-display-middle" style="text-align: center">
                 <div>
                     <h1 id="time-display" style="font-size: 60px">16:40</h1>
-                    <h3 id="next-meeting">
-                        Upcoming: <b>SENG 471</b> in <b>15 minutes</b>
-                    </h3>
+                    <h3 id="next-meeting">Upcoming: <b>SENG 471</b> in <b>15 minutes</b></h3>
+                    <button id="launch-zoom" class="" data-link="http://www.google.com">Join Zoom</button>
                 </div>
             </div>
         </div>
@@ -139,9 +138,9 @@
         for( let i = 0 ; i< sessions.length; i++){
             var s = sessions[i];
             var width;
-           e = document.getElementById(s.dayOfWeek);
-           var pixels = getSingularBlockLocation(s.startHour,s.startMin,s.endHour,s.endMin);
-           switch(s.dayOfWeek){
+            e = document.getElementById(s.dayOfWeek);
+            var pixels = getSingularBlockLocation(s.startHour,s.startMin,s.endHour,s.endMin);
+            switch(s.dayOfWeek){
             case "monday":
                 width = 161;
                 break;
@@ -158,8 +157,8 @@
                 width = 155;
                 break;
            }
-           e.innerHTML += '<div class = "w3-red"  style = "position:fixed;top: ' + pixels[0] + 'px; height:' 
-           + (pixels[1] - pixels[0]) + 'px;width:' + width +'px; background-color:' + s.colour + '"> ' + s.sessionName + '</div>';
+           e.innerHTML += '<div class = "w3-red w3-hover-pale-red"  style = "position:fixed;top: ' + pixels[0] + 'px; height:' 
+           + (pixels[1] - pixels[0]) + 'px;width:' + width +'px; background-color:' + s.colour + `" onclick="viewSessionModal('${s.dayOfWeek}', ${s.startHour}, ${s.startMin})"> ` + s.sessionName + '</div>';
            console.log(s.sessionName + "  " + pixels[0] + "added");
 
         }
@@ -245,6 +244,10 @@
 
     function toMins(hour, min){
         return hour*60 + min;
+    }
+
+    function viewSessionModal(dayOfWeek, startHour, startMin){
+        console.log(`tried to view modal for ${dayOfWeek}, ${startHour}:${startMin}`)
     }
 </script>
 <script src="schedules.js"></script>
