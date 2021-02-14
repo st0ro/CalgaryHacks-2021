@@ -1,21 +1,26 @@
+const fs = require('fs')
+
 class Session {
-    constructor(sessionName, password, dayOfWeek, startTime, endTime) {
+    constructor(sessionName, password, dayOfWeek, encryptedPass, startHour, startMin, endHour, endMin, colour) {
         this.sessionName = sessionName
         this.password = password
+        this.encryptedPass = encryptedPass;
         this.dayOfWeek = dayOfWeek
-        this.startTime = startTime
-        this.endTime = endTime
+        this.startHour = startHour
+        this.endHour = endHour
+        this.startMin = startMin
+        this.endMin = endMin
+        this.colour = colour
     }
 }
 
-const fs = require('fs')
-var sessions = []
-
 function loadSessions() {
-    sessions = JSON.parse(fs.readFileSync)
+    return JSON.parse(fs.readFileSync('sessions.json'))
 }
 
 function addSession(session) {
+    var sessions = loadSessions()
     sessions.push(session)
-    fs.writeFileSync('sessions.txt', JSON.stringify(sessions))
+    fs.writeFile('sessions.json', JSON.stringify(sessions))
+    return sessions;
 }

@@ -21,21 +21,20 @@
     </style>
 </head>
 
-<body style="background-color: #36393F">
+<body style="background-color: #36393F;" onload="clock();">
     <div class="w3-sidebar w3-bar-block" style="width:80px; background-color: #202225;">
-        <img src="unamused.png" class="w3-bar-item w3-button w3-hover-gray">
-        <img src="unamused.png" class="w3-bar-item w3-button w3-hover-gray">
-        <img src="unamused.png" class="w3-bar-item w3-button w3-hover-gray">
+        <img src="icons/home.png" class="w3-bar-item w3-button w3-hover-gray" onclick="selectView('view-home')">
+        <img src="icons/calender.png" class="w3-bar-item w3-button w3-hover-gray" onclick="selectView('view-schedule')">
+        <img src="icons/unamused.png" class="w3-bar-item w3-button w3-hover-gray" onclick="addSession('SENG 471 Lecture', '019737', '2', '', '13', '0', '13', '50', 'red')">
     </div>
     <div style="margin-left: 80px;">
         <!-- HARD CODE THE HEIGHT AND  WIDHT TO PIXELS-->
-        <div class="w3-container w3-display-container-gray" hidden>
+        <div class="w3-container w3-display-container-gray view-selector" id="view-home"
+            style="margin-left: 10%; height: 100%; width: 90%">
             <!-- home page-->
             <div class="w3-display-middle" style="text-align: center">
                 <div>
-                    <div id="time-display">
-                        <h1 style="font-size: 60px">16:40</h1>
-                    </div>
+                    <h1 id="time-display" style="font-size: 60px">16:40</h1>
                     <div id="next-meeting">
                         <h2 style="font-size: 25px">Upcoming:
                             <span id="home-meeting-name" style="color: white;font-weight: bold;">SENG 471 </span>in
@@ -45,7 +44,7 @@
                 </div>
             </div>
         </div>
-        <div class="w3-container">
+        <div class="w3-container view-selector" id="view-schedule" style="visibility: hidden;">
             <!--schedule page-->
             <div class="w3-bar">
                 <div class="w3-bar-item " style ="font-size: 30px;">    Schedule</div>
@@ -78,10 +77,37 @@
             </div>
 
         </div>
-        <div hidden>
-            <!--settings page-->
+        <div class="view-selector" id="view-3" style="visibility: hidden;">
+            <!--some page-->
         </div>
     </div>
 </body>
+
+<script>
+    function selectView(selected) {
+        var e = document.getElementsByClassName("view-selector");
+        for (let i = 0; i < e.length; i++) {
+            e[i].style.visibility = "hidden";
+        }
+        document.getElementById(selected).style.visibility = "visible";
+    }
+
+    function clock() {
+        var today = new Date();
+        var h = today.getHours();
+        var m = today.getMinutes();
+        if (m < 10) {m = "0" + m}
+        document.getElementById('time-display').innerHTML = h + ":" + m;
+        var t = setTimeout(clock, 1000);
+    }
+
+    const { shell } = require('electron')
+
+    function openLink(link){
+        shell.openExternal(link);
+    }
+    //openLink('zoommtg:\/\/ucalgary.zoom.us\/join?action=join&confno=2578813624');
+</script>
+<script src="schedules.js"></script>
 
 </html>
