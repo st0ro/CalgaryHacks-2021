@@ -15,7 +15,7 @@ class Session {
         this.colour = colour
     }
 }
-/*
+
 function loadSessions() {
     let input = JSON.parse(fs.readFileSync('sessions.json'))
     if(Array.isArray(input)){
@@ -25,17 +25,13 @@ function loadSessions() {
     output.push(input);
     return output;
 }
-*/
+
 function addSession(session) {
     var sessions = loadSessions()
     session.colour = colours[sessions.length%6];
     sessions.push(session)
     writeToFile(sessions)
     return sessions;
-}
-
-function loadSessions() {
-    return JSON.parse(fs.readFileSync('sessions.json'))
 }
 
 function editSession(){
