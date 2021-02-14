@@ -103,7 +103,7 @@
             </div>
 
             <div id="viewSession" class="w3-modal">
-                <div class="w3-modal-content w3-card-4 w3-light-grey w3-display-middle" style="max-width:600px">
+                <div class="w3-modal-content w3-card-4 w3-light-grey w3-display-middle" style="max-width:300px">
 
                     <div class="w3-center"><br>
                         <span onclick="document.getElementById('viewSession').style.display='none'"
@@ -112,11 +112,11 @@
                         <label><b>Session Details</b></label>
                     </div>
                     <div style="text-align: center;">
-                        <div id="sessionName"></div>
+                        <div id="sessionNameModal"></div>
                         <div id="meetingID"></div>
                         <div id="meetingPassword"></div>
-                        <div id="startTime"></div>
-                        <div id="endTime"></div>
+                        <div id="startTimeModal"></div>
+                        <div id="endTimeModal"></div>
                         <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
                             <button onclick="document.getElementById('viewSession').style.display='none'" type="button"
                                 class="w3-button w3-middle w3-red">Cancel</button>
@@ -297,19 +297,20 @@
     }
 
     function viewSessionModal(dayOfWeek, startHour, startMin) {
+        console.log(dayOfWeek + " " + startHour + " " + startMin)
         var sessions = loadSessions();
         var target
         for (let i = 0; i < sessions.length; i++) {
-            if (dayOfWeek === sessions[i].dayOfWeek && startHour === sessions[i].startHour && startMin === sessions[i].startMin) {
+            if (dayOfWeek === sessions[i].dayOfWeek && Number(startHour) === Number(sessions[i].startHour) && Number(startMin) === Number(sessions[i].startMin)) {
                 target = sessions[i]
             }
         }
         console.log(`tried to view modal for ${target.dayOfWeek}, ${target.startHour}:${target.startMin}`)
-        document.getElementById('sessionName').innerHTML = target.sessionName
+        document.getElementById('sessionNameModal').innerHTML = target.sessionName
         document.getElementById('meetingID').innerHTML = target.meetingId
         document.getElementById('meetingPassword').innerHTML = target.password
-        document.getElementById('startTime').innerHTML = target.startHour + ":" + target.startMin
-        document.getElementById('endTime').innerHTML = target.endHour + ":" + target.endMin
+        document.getElementById('startTimeModal').innerHTML = target.startHour + ":" + target.startMin
+        document.getElementById('endTimeModal').innerHTML = target.endHour + ":" + target.endMin
         document.getElementById('viewSession').style.display = 'block'
     }
 </script>
