@@ -37,7 +37,8 @@
                 <div>
                     <h1 id="time-display" style="font-size: 60px">16:40</h1>
                     <h3 id="next-meeting">Upcoming: <b>SENG 471</b> in <b>15 minutes</b></h3>
-                    <button id="launch-zoom" class="w3-button w3-red" data-link="http://www.google.com" style="visibility: hidden;">Join Zoom</button>
+                    <button id="launch-zoom" class="w3-button w3-red" data-link="http://www.google.com"
+                        style="visibility: hidden;">Join Zoom</button>
                 </div>
             </div>
         </div>
@@ -71,14 +72,14 @@
                                 id="pwd">
                             <label><b>Day of Week<br></b></label>
                             <div id="dow" class="w3-container w3-center">
-                                <input id="monday" class="w3-check day-selector" type="checkbox"> Monday
-                                <input id="tuesday" class="w3-check w3-margin-left day-selector" type="checkbox">
+                                <input name="monday" class="w3-check day-selector" type="checkbox"> Monday
+                                <input name="tuesday" class="w3-check w3-margin-left day-selector" type="checkbox">
                                 Tuesday
-                                <input id="wednesday" class="w3-check w3-margin-left day-selector" type="checkbox">
+                                <input name="wednesday" class="w3-check w3-margin-left day-selector" type="checkbox">
                                 Wednesday
-                                <input id="thursday" class="w3-check w3-margin-left day-selector" type="checkbox">
+                                <input name="thursday" class="w3-check w3-margin-left day-selector" type="checkbox">
                                 Thursday
-                                <input id="friday" class="w3-check w3-margin-left day-selector" type="checkbox"> Friday
+                                <input name="friday" class="w3-check w3-margin-left day-selector" type="checkbox"> Friday
                             </div>
                             <div class="w3-container w3-margin-top">
                                 <div class="w3-container w3-left">
@@ -102,6 +103,29 @@
                 </div>
             </div>
 
+            <div id="viewSession" class="w3-modal">
+                <div class="w3-modal-content w3-card-4 w3-light-grey w3-display-middle" style="max-width:600px">
+
+                    <div class="w3-center"><br>
+                        <span onclick="document.getElementById('viewSession').style.display='none'"
+                            class="w3-button w3-xlarge w3-hover-red w3-display-topright"
+                            title="Close Modal">&times;</span>
+                        <label><b>Session Details</b></label>
+                    </div>
+                    <div style="text-align: center;">
+                        <div id="sessionName"></div>
+                        <div id="meetingID"></div>
+                        <div id="meetingPassword"></div>
+                        <div id="startTime"></div>
+                        <div id="endTime"></div>
+                        <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+                            <button onclick="document.getElementById('viewSession').style.display='none'" type="button"
+                                class="w3-button w3-middle w3-red">Cancel</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
             <div class="w3-cell-row;">
                 <div class="w3-cell" style="position: relative;height:475px;text-align: center; width: 80px">
                     <div style="position: fixed; top: 87px;right:845px">8:00</div>
@@ -210,11 +234,11 @@
         for (var i = 0; i < selectors.length; i++) {
             if (selectors[i].checked) {
                 var s = new Session(document.getElementById("sessionName").value, document.getElementById("sessionId").value, document.getElementById("pwd").value,
-                    selectors[i].id, "", sTime[0], sTime[1], eTime[0], eTime[1], "blue");
+                    selectors[i].name, "", sTime[0], sTime[1], eTime[0], eTime[1], "blue");
                 addSession(s);
             }
         }
-        document.getElementById('addToSchedule').style.display='none';
+        document.getElementById('addToSchedule').style.display = 'none';
         loadSchedule();
     }
 
@@ -274,7 +298,20 @@
     }
 
     function viewSessionModal(dayOfWeek, startHour, startMin) {
-        console.log(`tried to view modal for ${dayOfWeek}, ${startHour}:${startMin}`)
+        var sessions = loadSessions();
+        var target
+        for (let i = 0; i < sessions.length; i++) {
+            if (dayOfWeek === sessions[i].dayOfWeek && startHour === sessions[i].startHour && startMin === sessions[i].startMin) {
+                target = sessions[i]
+            }
+        }
+        console.log(`tried to view modal for ${target.dayOfWeek}, ${target.startHour}:${target.startMin}`)
+        document.getElementById('sessionName').innerHTML = target.sessionName
+        document.getElementById('meetingID').innerHTML = target.meetingId
+        document.getElementById('meetingPassword').innerHTML = target.password
+        document.getElementById('startTime').innerHTML = target.startHour + ":" + target.startMin
+        document.getElementById('endTime').innerHTML = target.endHour + ":" + target.endMin
+        document.getElementById('viewSession').style.display = 'block'
     }
 </script>
 <script src="schedules.js"></script>
