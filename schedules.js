@@ -1,8 +1,9 @@
 const fs = require('fs')
 
 class Session {
-    constructor(sessionName, password, dayOfWeek, encryptedPass, startHour, startMin, endHour, endMin, colour) {
+    constructor(sessionName, meetingId, password, dayOfWeek, encryptedPass, startHour, startMin, endHour, endMin, colour) {
         this.sessionName = sessionName
+        this.meetingId = meetingId;
         this.password = password
         this.encryptedPass = encryptedPass;
         this.dayOfWeek = dayOfWeek
@@ -21,9 +22,28 @@ function loadSessions() {
 function addSession(session) {
     var sessions = loadSessions()
     sessions.push(session)
-    fs.writeFile('sessions.json', JSON.stringify(sessions), (err) => {
+    writeToFile(session)
+    return sessions;
+}
+
+function editSession(){
+    //TODO
+}
+
+function removeSession(dayOfWeek, startHour, startMin){
+    var sessions = loadSessions();
+    for(let i = 0; i < sessions.length; i++){
+        if(dayOfWeek === sessions[i].dayOfWeek && startHour === sessions[i].startHour && startMin === sessions[i].startMin){
+            sessions.splice(i, 1);
+            writeToFile(sessions);
+            return;
+        }
+    }
+}
+
+function writeToFile(json){
+    fs.writeFile('sessions.json', JSON.stringify(json), (err) => {
         if (err) throw err;
         console.log("file saved");
     })
-    return sessions;
 }
