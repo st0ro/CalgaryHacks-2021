@@ -25,8 +25,7 @@
     <div class="w3-sidebar w3-bar-block" style="width:80px; background-color: #202225;">
         <img src="icons/home.png" class="w3-bar-item w3-button w3-hover-gray" onclick="selectView('view-home')">
         <img src="icons/calender.png" class="w3-bar-item w3-button w3-hover-gray" onclick="selectView('view-schedule')">
-        <img src="icons/unamused.png" class="w3-bar-item w3-button w3-hover-gray"
-            onclick="addSession(new Session('SENG 471 Lecture', '019737', '2', '', '13', '0', '13', '50', 'red'))">
+        <img src="icons/unamused.png" class="w3-bar-item w3-button w3-hover-gray" onclick="addSession(new Session('SENG 471 Lecture', '2578813624', '019737', 'monday', '', '13', '0', '13', '50', 'red'))">
     </div>
     <div style="margin-left: 80px;">
         <!-- HARD CODE THE HEIGHT AND  WIDHT TO PIXELS-->
@@ -36,12 +35,9 @@
             <div class="w3-display-middle" style="text-align: center">
                 <div>
                     <h1 id="time-display" style="font-size: 60px">16:40</h1>
-                    <div id="next-meeting">
-                        <h2 style="font-size: 25px">Upcoming:
-                            <span id="home-meeting-name" style="color: white;font-weight: bold;">SENG 471 </span>in
-                            <span id="home-meeting-time" style="color: white;font-weight: bold">15 minutes</span>
-                        </h2>
-                    </div>
+                    <h3 id="next-meeting">
+                        Upcoming: <b>SENG 471</b> in <b>15 minutes</b>
+                    </h3>
                 </div>
             </div>
         </div>
@@ -129,7 +125,6 @@
                     
                 </div>
             </div>
-
         </div>
         <div class="view-selector" id="view-3" style="visibility: hidden;">
             <!--some page-->
@@ -196,15 +191,61 @@
         var m = today.getMinutes();
         if (m < 10) { m = "0" + m }
         document.getElementById('time-display').innerHTML = h + ":" + m;
-        var t = setTimeout(clock, 1000);
+        loadHomepage();
+        var t = setTimeout(clock, 10000);
     }
 
     const { shell } = require('electron')
 
     function openLink(link) {
         shell.openExternal(link);
+        //openLink('zoommtg:\/\/ucalgary.zoom.us\/join?action=join&confno=2578813624');
     }
-    //openLink('zoommtg:\/\/ucalgary.zoom.us\/join?action=join&confno=2578813624');
+
+    function loadHomepage(){
+        let sessions = loadSessions();
+        var d = new Date();
+        var dayOfWeek = d.getDay();
+        var currentMins = toMins(d.getHours(), d.getMinutes);
+        var sessionsToday = [];
+        var currentSession;
+        for(let i = 0; i < sessions.length; i++){
+            let endMins = toMins(sessions[i].endHour, sessions[i].endMin);
+            if(sessions[i].dayOfWeek === dayOfWeek && endMins >= currentMins){
+                let startMins = toMins(sessions[i].startHour, sessions[i].startMin);
+                sessions[i].startMins = startMins;
+                sessions[i].endMins = endMins;
+                if(startMins <= currentMins && currentMins >= endMins){
+                    currentSession = sessions[i];
+                }
+                sessionsToday.push(sessions[i]);
+            }
+        }
+        if(sessionsToday.length > 0){
+            if(typeof currentSession !== 'undefined'){
+                document.getElementById('next-meeting').innerHTML = `Current session: <b>${currentSession.sessionName}</b> (${currentSession.startHour}:${currentSession.startMin} to ${currentSession.endHour}:${currentSession.endMin})`;
+            }
+            else{
+                sessionsToday.sort((a, b) => {
+                    return a.startMins - b.startMins;
+                });
+                let text = `Upcoming: <b>${sessionsToday[0]}</b> in `;
+                let timeLeft = sessionsToday[0].startMins - currentMins;
+                if(timeLeft > 60){
+                    text += `<b>${timeLeft/60} hour(s)</b> and `;
+                }
+                text += `<b>${timeLeft%60} minute(s)</b>`;
+                document.getElementById('next-meeting').innerHTML = text;
+            }
+        }
+        else{
+            document.getElementById('next-meeting').innerHTML = "No more sessions scheduled for today";
+        }
+    }
+
+    function toMins(hour, min){
+        return hour*60 + min;
+    }
 </script>
 <script src="schedules.js"></script>
 

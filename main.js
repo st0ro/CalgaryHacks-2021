@@ -10,6 +10,7 @@ function createWindow () {
   })
   win.setMenuBarVisibility(false);
   win.loadFile('index.html')
+  win.setResizable(false);
 }
 
 app.whenReady().then(createWindow)
