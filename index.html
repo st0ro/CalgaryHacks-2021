@@ -37,7 +37,7 @@
                 <div>
                     <h1 id="time-display" style="font-size: 60px">16:40</h1>
                     <h3 id="next-meeting">Upcoming: <b>SENG 471</b> in <b>15 minutes</b></h3>
-                    <button id="launch-zoom" class="" data-link="http://www.google.com">Join Zoom</button>
+                    <button id="launch-zoom" class="w3-button w3-red" data-link="http://www.google.com" style="visibility: hidden;">Join Zoom</button>
                 </div>
             </div>
         </div>
@@ -246,6 +246,7 @@
         if (sessionsToday.length > 0) {
             if (typeof currentSession !== 'undefined') {
                 document.getElementById('next-meeting').innerHTML = `Current session: <b>${currentSession.sessionName}</b> (${currentSession.startHour}:${currentSession.startMin} to ${currentSession.endHour}:${currentSession.endMin})`;
+                document.getElementById('launch-zoom').visibility = "visible";
             }
             else {
                 sessionsToday.sort((a, b) => {
@@ -258,10 +259,12 @@
                 }
                 text += `<b>${timeLeft % 60} minute(s)</b>`;
                 document.getElementById('next-meeting').innerHTML = text;
+                document.getElementById('launch-zoom').visibility = "visible";
             }
         }
         else {
             document.getElementById('next-meeting').innerHTML = "No more sessions scheduled for today";
+            document.getElementById('launch-zoom').visibility = "hidden";
         }
     }
 

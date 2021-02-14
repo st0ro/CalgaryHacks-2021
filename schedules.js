@@ -16,7 +16,13 @@ class Session {
 }
 
 function loadSessions() {
-    return JSON.parse(fs.readFileSync('sessions.json'))
+    let input = JSON.parse(fs.readFileSync('sessions.json'))
+    if(Array.isArray(input)){
+       return input; 
+    }
+    let output = [];
+    output.push(input);
+    return output;
 }
 
 function addSession(session) {
