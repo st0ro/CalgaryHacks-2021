@@ -53,7 +53,7 @@
                 onclick="document.getElementById('addToSchedule').style.display='block'">
 
             <div id="addToSchedule" class="w3-modal">
-                <div class="w3-modal-content w3-card-4 w3-animate-zoom w3-light-grey" style="max-width:600px">
+                <div class="w3-modal-content w3-card-4 w3-light-grey w3-display-middle" style="max-width:600px">
 
                     <div class="w3-center"><br>
                         <span onclick="document.getElementById('addToSchedule').style.display='none'"
@@ -67,8 +67,11 @@
                             <label><b>Session Name</b></label>
                             <input class="w3-input w3-border w3-margin-bottom" type="text"
                                 placeholder="Eg: MATH 101 Lecture" name="sessionName" required>
+                            <label><b>Zoom Session ID</b></label>
+                            <input class="w3-input w3-border w3-margin-bottom" type="text"
+                                placeholder="Eg: 1234567890" name="sessionID" required>
                             <label><b>Password</b></label>
-                            <input class="w3-input w3-border w3-margin-bottom" type="password" placeholder="Eg: LetMeIn"
+                            <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Eg: LetMeIn"
                                 name="psw">
                             <label><b>Day of Week<br></b></label>
                             <div class="w3-container w3-center">
