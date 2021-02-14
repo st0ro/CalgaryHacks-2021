@@ -21,7 +21,7 @@
     </style>
 </head>
 
-<body style="background-color: #36393F;">
+<body style="background-color: #36393F">
     <div class="w3-sidebar w3-bar-block" style="width:80px; background-color: #202225;">
         <img src="unamused.png" class="w3-bar-item w3-button w3-hover-gray">
         <img src="unamused.png" class="w3-bar-item w3-button w3-hover-gray">
@@ -29,7 +29,7 @@
     </div>
     <div style="margin-left: 80px;">
         <!-- HARD CODE THE HEIGHT AND  WIDHT TO PIXELS-->
-        <div class="w3-container w3-display-container-gray" style="margin-left: 10%; height: 100%; width: 90%">
+        <div class="w3-container w3-display-container-gray" hidden>
             <!-- home page-->
             <div class="w3-display-middle" style="text-align: center">
                 <div>
@@ -45,29 +45,38 @@
                 </div>
             </div>
         </div>
-        <div class="w3-container" hidden>
+        <div class="w3-container">
             <!--schedule page-->
-            <h3>Schedule</h3>
-            <div class="w3-cell-row">
-                <div class="w3-cell" style="height:475px">
-                    hi
+            <div class="w3-bar">
+                <div class="w3-bar-item " style ="font-size: 30px;">    Schedule</div>
+                <div class="w3-bar-item w3-button w3-right  w3-hover-gray">Add</div>
+            </div>
+            <div class="w3-cell-row;">
+                <div class="w3-cell" style="position: relative;height:475px;text-align: center; width: 80px">
+                    <div style = "position: fixed; top: 87px;right:845px">8:00</div>
+                    <div style = "position: fixed; top: 172px;right:845px">10:00</div>
+                    <div style = "position: fixed; top: 257px;right:845px">12:00</div>
+                    <div style = "position: fixed; top: 342px;right:845px">14:00</div>
+                    <div style = "position: fixed; top: 427px;right:845px">16:00</div>
+                    <div style = "position: fixed; top: 511px;right:845px">18:00</div>
                 </div>
-                <div class="w3-cell" style="background-color:#32353B; height:475px">
-                    hi
+                <div class="w3-cell" style="background-color:#32353B; height:475px;text-align: center; width: 200px">
+                    Monday
                 </div>
-                <div class="w3-cell" style="height:475px">
-                    hi
+                <div class="w3-cell" style="height:475px;text-align: center; width: 200px">
+                    Tuesday
                 </div>
-                <div class="w3-cell" style="background-color:#32353B; height:475px">
-                    hi
+                <div class="w3-cell" style="background-color:#32353B; height:475px;text-align: center; width: 200px">
+                    Wednesday
                 </div>
-                <div class="w3-cell" style="height:475px">
-                    hi
+                <div class="w3-cell" style="height:475px;text-align: center; width: 200px">
+                    Thursday
                 </div>
-                <div class="w3-cell" style="background-color:#32353B; height:475px">
-                    hi
+                <div class="w3-cell" style="background-color:#32353B; height:475px;text-align: center; width: 200px">
+                    Friday
                 </div>
             </div>
+
         </div>
         <div hidden>
             <!--settings page-->
