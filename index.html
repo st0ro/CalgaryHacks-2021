@@ -28,7 +28,7 @@
         <img src="icons/gear.png" class="w3-bar-item w3-button w3-hover-gray" style="position: absolute; bottom: 0px;" onclick="">
     </div>
     <div style="margin-left: 80px;">
-        <!-- HARD CODE THE HEIGHT AND  WIDHT TO PIXELS-->
+        <!-- HARD CODE THE HEIGHT AND WIDHT TO PIXELS-->
         <div class="w3-container w3-display-container-gray view-selector" id="view-home"
             style="margin-left: 10%; height: 100%; width: 90%">
             <!-- home page-->
@@ -36,8 +36,7 @@
                 <div>
                     <h1 id="time-display" style="font-size: 60px">16:40</h1>
                     <h3 id="next-meeting">Upcoming: <b>SENG 471</b> in <b>15 minutes</b></h3>
-                    <button id="launch-zoom" class="w3-button w3-red" data-link="http://www.google.com"
-                        style="visibility: hidden;">Join Zoom</button>
+                    <button id="launch-zoom" class="w3-button w3-red" style="visibility: hidden;" onclick="openLink()">Join Zoom</button>
                 </div>
             </div>
         </div>
@@ -178,17 +177,17 @@
                     width = 161;
                     break;
                 case "wednesday":
-                    width = 180;
+                    width = 170;
                     break;
                 case "thursday":
                     width = 161;
                     break;
                 case "friday":
-                    width = 155;
+                    width = 158;
                     break;
             }
-            e.innerHTML += '<div class = "w3-red w3-hover-pale-red"  style = "position:fixed;top: ' + pixels[0] + 'px; height:'
-                + (pixels[1] - pixels[0]) + 'px;width:' + width + 'px; background-color:' + s.colour + `" onclick="viewSessionModal('${s.dayOfWeek}', ${s.startHour}, ${s.startMin})"> ` + s.sessionName + '</div>';
+            e.innerHTML += `<div class = "${s.colour} w3-hover-light-gray"  style = "position:fixed;top: ` + pixels[0] + 'px; height:'
+                + (pixels[1] - pixels[0]) + 'px;width:' + width + 'px;"' + `" onclick="viewSessionModal('${s.dayOfWeek}', ${s.startHour}, ${s.startMin})"> ` + s.sessionName + '</div>';
             console.log(s.sessionName + "  " + pixels[0] + "added");
 
         }
@@ -242,10 +241,18 @@
     }
 
     const { shell } = require('electron')
+    const clipboardy = require('clipboardy')
 
-    function openLink(link) {
+    var link = "zoommtg://ucalgary.zoom.us/join?action=join&confno=2578813624&uname=Alexander%20Price"
+    var password = "1234"
+
+    function openLink() {
+        if(typeof password !== ""){
+            clipboardy.writeSync(password)
+        }
         shell.openExternal(link);
-        //openLink('zoommtg:\/\/ucalgary.zoom.us\/join?action=join&confno=2578813624');
+        //openLink("zoommtg://ucalgary.zoom.us/join?action=join&confno=2578813624");
+        //zoommtg://ucalgary.zoom.us/join?action=join&confno=2578813624&uname=Alexander%20Price
     }
 
     function loadHomepage() {
@@ -271,6 +278,8 @@
             if (typeof currentSession !== 'undefined') {
                 document.getElementById('next-meeting').innerHTML = `Current session: <b>${currentSession.sessionName}</b> (${currentSession.startHour}:${currentSession.startMin} to ${currentSession.endHour}:${currentSession.endMin})`;
                 document.getElementById('launch-zoom').visibility = "visible";
+                link = "zoommtg://ucalgary.zoom.us/join?action=join&confno=" + currentSession.meetingId
+                password = currentSession.password
             }
             else {
                 sessionsToday.sort((a, b) => {
