@@ -21,6 +21,9 @@ function loadSessions() {
 function addSession(session) {
     var sessions = loadSessions()
     sessions.push(session)
-    fs.writeFile('sessions.json', JSON.stringify(sessions))
+    fs.writeFile('sessions.json', JSON.stringify(sessions), (err) => {
+        if (err) throw err;
+        console.log("file saved");
+    })
     return sessions;
 }

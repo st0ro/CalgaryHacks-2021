@@ -25,7 +25,7 @@
     <div class="w3-sidebar w3-bar-block" style="width:80px; background-color: #202225;">
         <img src="icons/home.png" class="w3-bar-item w3-button w3-hover-gray" onclick="selectView('view-home')">
         <img src="icons/calender.png" class="w3-bar-item w3-button w3-hover-gray" onclick="selectView('view-schedule')">
-        <img src="icons/unamused.png" class="w3-bar-item w3-button w3-hover-gray" onclick="addSession('SENG 471 Lecture', '019737', '2', '', '13', '0', '13', '50', 'red')">
+        <img src="icons/unamused.png" class="w3-bar-item w3-button w3-hover-gray" onclick="addSession(new Session('SENG 471 Lecture', '019737', '2', '', '13', '0', '13', '50', 'red'))">
     </div>
     <div style="margin-left: 80px;">
         <!-- HARD CODE THE HEIGHT AND  WIDHT TO PIXELS-->
@@ -46,10 +46,8 @@
         </div>
         <div class="w3-container view-selector" id="view-schedule" style="visibility: hidden;">
             <!--schedule page-->
-            <div class="w3-bar">
-                <div class="w3-bar-item " style ="font-size: 30px;">    Schedule</div>
-                <div class="w3-bar-item w3-button w3-right  w3-hover-gray">Add</div>
-            </div>
+            <div style ="font-size: 30px; padding-top: 8px; padding-bottom: 8px;">Schedule</div>
+            <img src="icons/add.png" class="w3-button w3-hover-gray" style="position: fixed; top:14px; height:36px; right:8px;" onclick="//TODO open modal">
             <div class="w3-cell-row;">
                 <div class="w3-cell" style="position: relative;height:475px;text-align: center; width: 80px">
                     <div style = "position: fixed; top: 87px;right:845px">8:00</div>
