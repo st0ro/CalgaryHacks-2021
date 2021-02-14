@@ -25,7 +25,8 @@
     <div class="w3-sidebar w3-bar-block" style="width:80px; background-color: #202225;">
         <img src="icons/home.png" class="w3-bar-item w3-button w3-hover-gray" onclick="selectView('view-home')">
         <img src="icons/calender.png" class="w3-bar-item w3-button w3-hover-gray" onclick="selectView('view-schedule')">
-        <img src="icons/gear.png" class="w3-bar-item w3-button w3-hover-gray" style="position: absolute; bottom: 0px;" onclick="addSession(new Session('SENG 471 Lecture', '2578813624', '019737', 'monday', '', '13', '0', '13', '50', 'red'))">
+        <img src="icons/gear.png" class="w3-bar-item w3-button w3-hover-gray" style="position: absolute; bottom: 0px;"
+            onclick="addSession(new Session('SENG 471 Lecture', '2578813624', '019737', 'monday', '', '13', '0', '13', '50', 'red'))">
     </div>
     <div style="margin-left: 80px;">
         <!-- HARD CODE THE HEIGHT AND  WIDHT TO PIXELS-->
@@ -40,7 +41,7 @@
                 </div>
             </div>
         </div>
-        <div class="w3-container view-selector" id="view-schedule" style="visibility: hidden;" >
+        <div class="w3-container view-selector" id="view-schedule" style="visibility: hidden;">
             <!--schedule page-->
             <div style="font-size: 30px; padding-top: 8px; padding-bottom: 8px;">Schedule</div>
             <img src="icons/add.png" class="w3-button w3-hover-gray"
@@ -61,29 +62,32 @@
                         <div class="w3-section">
                             <label><b>Session Name</b></label>
                             <input class="w3-input w3-border w3-margin-bottom" type="text"
-                                placeholder="Eg: MATH 101 Lecture" name="sessionName" required>
+                                placeholder="Eg: MATH 101 Lecture" id="sessionName" required>
                             <label><b>Zoom Session ID</b></label>
-                            <input class="w3-input w3-border w3-margin-bottom" type="text"
-                                placeholder="Eg: 1234567890" name="sessionID" required>
+                            <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Eg: 1234567890"
+                                id="sessionId" required>
                             <label><b>Password</b></label>
                             <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Eg: LetMeIn"
-                                name="psw">
+                                id="pwd">
                             <label><b>Day of Week<br></b></label>
-                            <div class="w3-container w3-center">
-                                <input class="w3-check" type="checkbox"> Monday
-                                <input class="w3-check w3-margin-left" type="checkbox"> Tuesday
-                                <input class="w3-check w3-margin-left" type="checkbox"> Wednesday
-                                <input class="w3-check w3-margin-left" type="checkbox"> Thursday
-                                <input class="w3-check w3-margin-left" type="checkbox"> Friday
+                            <div id="dow" class="w3-container w3-center">
+                                <input id="monday" class="w3-check day-selector" type="checkbox"> Monday
+                                <input id="tuesday" class="w3-check w3-margin-left day-selector" type="checkbox">
+                                Tuesday
+                                <input id="wednesday" class="w3-check w3-margin-left day-selector" type="checkbox">
+                                Wednesday
+                                <input id="thursday" class="w3-check w3-margin-left day-selector" type="checkbox">
+                                Thursday
+                                <input id="friday" class="w3-check w3-margin-left day-selector" type="checkbox"> Friday
                             </div>
                             <div class="w3-container w3-margin-top">
                                 <div class="w3-container w3-left">
                                     <label><b>Start time<br></b></label>
-                                    <input type="time" id="startTime" name="start">
+                                    <input type="time" id="startTime" name="start" required>
                                 </div>
                                 <div class="w3-container w3-right">
                                     <label><b>End time</b><br></label>
-                                    <input type="time" id="endTime" name="end">
+                                    <input type="time" id="endTime" name="end" required>
                                 </div>
                             </div>
                         </div>
@@ -92,7 +96,7 @@
                     <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
                         <button onclick="document.getElementById('addToSchedule').style.display='none'" type="button"
                             class="w3-button w3-left w3-red">Cancel</button>
-                        <button class="w3-button w3-right w3-green" type="submit">Add</button>
+                        <button onclick="addCourse()" class="w3-button w3-right w3-green" type="submit">Add</button>
                     </div>
 
                 </div>
@@ -107,21 +111,24 @@
                     <div style="position: fixed; top: 427px;right:845px">16:00</div>
                     <div style="position: fixed; top: 511px;right:845px">18:00</div>
                 </div>
-                <div class="w3-cell" id ="monday" style="background-color:#32353B; height:475px;text-align: center; width: 200px">
+                <div class="w3-cell" id="monday"
+                    style="background-color:#32353B; height:475px;text-align: center; width: 200px">
                     Monday
                 </div>
-                <div class="w3-cell" id = "tuesday" style="height:475px;text-align: center; width: 200px">
+                <div class="w3-cell" id="tuesday" style="height:475px;text-align: center; width: 200px">
                     Tuesday
                 </div>
-                <div class="w3-cell" id = "wednesday" style="background-color:#32353B; height:475px;text-align: center; width: 200px">
+                <div class="w3-cell" id="wednesday"
+                    style="background-color:#32353B; height:475px;text-align: center; width: 200px">
                     Wednesday
                 </div>
-                <div class="w3-cell" id = "thursday" style="height:475px;text-align: center; width: 200px">
+                <div class="w3-cell" id="thursday" style="height:475px;text-align: center; width: 200px">
                     Thursday
                 </div>
-                <div class="w3-cell" id = "friday" style="background-color:#32353B; height:475px;text-align: center; width: 200px">
+                <div class="w3-cell" id="friday"
+                    style="background-color:#32353B; height:475px;text-align: center; width: 200px">
                     Friday
-                    
+
                 </div>
             </div>
         </div>
@@ -132,50 +139,50 @@
 </body>
 
 <script>
-    function loadSchedule(){
+    function loadSchedule() {
         var e;
         var sessions = loadSessions();
-        for( let i = 0 ; i< sessions.length; i++){
+        for (let i = 0; i < sessions.length; i++) {
             var s = sessions[i];
             var width;
             e = document.getElementById(s.dayOfWeek);
-            var pixels = getSingularBlockLocation(s.startHour,s.startMin,s.endHour,s.endMin);
-            switch(s.dayOfWeek){
-            case "monday":
-                width = 161;
-                break;
-            case "tuesday":
-                width = 161;
-                break;
-            case "wednesday":
-                width = 180;
-                break;
-            case "thursday":
-                width = 161;
-                break;
-            case "friday":
-                width = 155;
-                break;
-           }
-           e.innerHTML += '<div class = "w3-red w3-hover-pale-red"  style = "position:fixed;top: ' + pixels[0] + 'px; height:' 
-           + (pixels[1] - pixels[0]) + 'px;width:' + width +'px; background-color:' + s.colour + `" onclick="viewSessionModal('${s.dayOfWeek}', ${s.startHour}, ${s.startMin})"> ` + s.sessionName + '</div>';
-           console.log(s.sessionName + "  " + pixels[0] + "added");
+            var pixels = getSingularBlockLocation(s.startHour, s.startMin, s.endHour, s.endMin);
+            switch (s.dayOfWeek) {
+                case "monday":
+                    width = 161;
+                    break;
+                case "tuesday":
+                    width = 161;
+                    break;
+                case "wednesday":
+                    width = 180;
+                    break;
+                case "thursday":
+                    width = 161;
+                    break;
+                case "friday":
+                    width = 155;
+                    break;
+            }
+            e.innerHTML += '<div class = "w3-red w3-hover-pale-red"  style = "position:fixed;top: ' + pixels[0] + 'px; height:'
+                + (pixels[1] - pixels[0]) + 'px;width:' + width + 'px; background-color:' + s.colour + `" onclick="viewSessionModal('${s.dayOfWeek}', ${s.startHour}, ${s.startMin})"> ` + s.sessionName + '</div>';
+            console.log(s.sessionName + "  " + pixels[0] + "added");
 
         }
     }
 
-    function getSingularBlockLocation(startHour,startMin,endHour,endMin){
+    function getSingularBlockLocation(startHour, startMin, endHour, endMin) {
         var pixels = [];
-        pixels[0] = pixelLocation(startHour,startMin);
-        pixels[1] = pixelLocation(endHour,endMin);
+        pixels[0] = pixelLocation(startHour, startMin);
+        pixels[1] = pixelLocation(endHour, endMin);
 
         return pixels;
     }
 
-    function pixelLocation(hour, min){
-        return ((((Number(hour) -8)*60 +Number(min))/600)*424) + 95;
+    function pixelLocation(hour, min) {
+        return ((((Number(hour) - 8) * 60 + Number(min)) / 600) * 424) + 95;
     }
-    
+
     function selectView(selected) {
         var e = document.getElementsByClassName("view-selector");
         for (let i = 0; i < e.length; i++) {
@@ -194,6 +201,22 @@
         var t = setTimeout(clock, 10000);
     }
 
+    function addCourse() {
+        console.log("Function called");
+        var sTime = document.getElementById("startTime").value;
+        var eTime = document.getElementById("endTime").value;
+        sTime = sTime.split(":");
+        eTime = eTime.split(":");
+        var selectors = document.getElementsByClassName("day-selector");
+        for (var i = 0; i < selectors.length; i++) {
+            if (selectors[i].checked) {
+                var s = new Session(document.getElementById("sessionName").value, document.getElementById("sessionId").value, document.getElementById("pwd").value,
+                    selectors[i].id, "", sTime[0], sTime[1], eTime[0], eTime[1], "blue");
+                addSession(s);
+            }
+        }
+    }
+
     const { shell } = require('electron')
 
     function openLink(link) {
@@ -201,52 +224,52 @@
         //openLink('zoommtg:\/\/ucalgary.zoom.us\/join?action=join&confno=2578813624');
     }
 
-    function loadHomepage(){
+    function loadHomepage() {
         let sessions = loadSessions();
         var d = new Date();
         var dayOfWeek = d.getDay();
         var currentMins = toMins(d.getHours(), d.getMinutes);
         var sessionsToday = [];
         var currentSession;
-        for(let i = 0; i < sessions.length; i++){
+        for (let i = 0; i < sessions.length; i++) {
             let endMins = toMins(sessions[i].endHour, sessions[i].endMin);
-            if(sessions[i].dayOfWeek === dayOfWeek && endMins >= currentMins){
+            if (sessions[i].dayOfWeek === dayOfWeek && endMins >= currentMins) {
                 let startMins = toMins(sessions[i].startHour, sessions[i].startMin);
                 sessions[i].startMins = startMins;
                 sessions[i].endMins = endMins;
-                if(startMins <= currentMins && currentMins >= endMins){
+                if (startMins <= currentMins && currentMins >= endMins) {
                     currentSession = sessions[i];
                 }
                 sessionsToday.push(sessions[i]);
             }
         }
-        if(sessionsToday.length > 0){
-            if(typeof currentSession !== 'undefined'){
+        if (sessionsToday.length > 0) {
+            if (typeof currentSession !== 'undefined') {
                 document.getElementById('next-meeting').innerHTML = `Current session: <b>${currentSession.sessionName}</b> (${currentSession.startHour}:${currentSession.startMin} to ${currentSession.endHour}:${currentSession.endMin})`;
             }
-            else{
+            else {
                 sessionsToday.sort((a, b) => {
                     return a.startMins - b.startMins;
                 });
                 let text = `Upcoming: <b>${sessionsToday[0]}</b> in `;
                 let timeLeft = sessionsToday[0].startMins - currentMins;
-                if(timeLeft > 60){
-                    text += `<b>${timeLeft/60} hour(s)</b> and `;
+                if (timeLeft > 60) {
+                    text += `<b>${timeLeft / 60} hour(s)</b> and `;
                 }
-                text += `<b>${timeLeft%60} minute(s)</b>`;
+                text += `<b>${timeLeft % 60} minute(s)</b>`;
                 document.getElementById('next-meeting').innerHTML = text;
             }
         }
-        else{
+        else {
             document.getElementById('next-meeting').innerHTML = "No more sessions scheduled for today";
         }
     }
 
-    function toMins(hour, min){
-        return hour*60 + min;
+    function toMins(hour, min) {
+        return hour * 60 + min;
     }
 
-    function viewSessionModal(dayOfWeek, startHour, startMin){
+    function viewSessionModal(dayOfWeek, startHour, startMin) {
         console.log(`tried to view modal for ${dayOfWeek}, ${startHour}:${startMin}`)
     }
 </script>
