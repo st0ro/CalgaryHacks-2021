@@ -202,7 +202,6 @@
     }
 
     function addCourse() {
-        console.log("Function called");
         var sTime = document.getElementById("startTime").value;
         var eTime = document.getElementById("endTime").value;
         sTime = sTime.split(":");
@@ -215,6 +214,8 @@
                 addSession(s);
             }
         }
+        document.getElementById('addToSchedule').style.display='none';
+        loadSchedule();
     }
 
     const { shell } = require('electron')

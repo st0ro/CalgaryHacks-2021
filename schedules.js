@@ -1,4 +1,5 @@
 const fs = require('fs')
+var colours = ["w3-light-blue", "w3-light-green", "w3-khaki", "w3-pale-red", "w3-deep-purple", "w3-orange"]
 
 class Session {
     constructor(sessionName, meetingId, password, dayOfWeek, encryptedPass, startHour, startMin, endHour, endMin, colour) {
@@ -27,8 +28,9 @@ function loadSessions() {
 
 function addSession(session) {
     var sessions = loadSessions()
+    session.colour = colours[sessions.length%6];
     sessions.push(session)
-    writeToFile(session)
+    writeToFile(sessions)
     return sessions;
 }
 
@@ -48,7 +50,7 @@ function removeSession(dayOfWeek, startHour, startMin){
 }
 
 function writeToFile(json){
-    fs.writeFile('sessions.json', JSON.stringify(json), (err) => {
+    fs.writeFileSync('sessions.json', JSON.stringify(json), (err) => {
         if (err) throw err;
         console.log("file saved");
     })
