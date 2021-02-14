@@ -37,7 +37,7 @@
                 <div>
                     <h1 id="time-display" style="font-size: 60px">16:40</h1>
                     <h3 id="next-meeting">Upcoming: <b>SENG 471</b> in <b>15 minutes</b></h3>
-                    <button id="launch-zoom" class="w3-button w3-red" style="visibility: hidden;" onclick="openLink()">Join Zoom</button>
+                    <button id="launch-zoom" class="w3-button w3-red" style="display: none; position: absolute; left: 200px;" onclick="openLink()">Join Zoom</button>
                 </div>
             </div>
         </div>
@@ -285,18 +285,18 @@
 
     function loadHomepage() {
         let sessions = loadSessions();
-        var d = new Date();
+        var d = new Date("February 15, 2021 13:12:30");
         var dayOfWeek = d.getDay();
-        var currentMins = toMins(d.getHours(), d.getMinutes);
+        var currentMins = toMins(d.getHours(), d.getMinutes());
         var sessionsToday = [];
         var currentSession;
         for (let i = 0; i < sessions.length; i++) {
             let endMins = toMins(sessions[i].endHour, sessions[i].endMin);
-            if (sessions[i].dayOfWeek === dayOfWeek && endMins >= currentMins) {
+            if (sessions[i].dayOfWeek === weekdays[dayOfWeek] && endMins >= currentMins) {
                 let startMins = toMins(sessions[i].startHour, sessions[i].startMin);
                 sessions[i].startMins = startMins;
                 sessions[i].endMins = endMins;
-                if (startMins <= currentMins && currentMins >= endMins) {
+                if (startMins <= currentMins) {
                     currentSession = sessions[i];
                 }
                 sessionsToday.push(sessions[i]);
@@ -304,8 +304,8 @@
         }
         if (sessionsToday.length > 0) {
             if (typeof currentSession !== 'undefined') {
-                document.getElementById('next-meeting').innerHTML = `Current session: <b>${currentSession.sessionName}</b> (${currentSession.startHour}:${currentSession.startMin} to ${currentSession.endHour}:${currentSession.endMin})`;
-                document.getElementById('launch-zoom').visibility = "visible";
+                document.getElementById('next-meeting').innerHTML = `Current session: <b>${currentSession.sessionName}</b> (${currentSession.startHour}:${padMins(currentSession.startMin)} to ${currentSession.endHour}:${padMins(currentSession.endMin)})`;
+                document.getElementById('launch-zoom').style.display = "block";
                 link = "zoommtg://ucalgary.zoom.us/join?action=join&confno=" + currentSession.meetingId
                 password = currentSession.password
             }
@@ -313,24 +313,33 @@
                 sessionsToday.sort((a, b) => {
                     return a.startMins - b.startMins;
                 });
-                let text = `Upcoming: <b>${sessionsToday[0]}</b> in `;
+                let text = `Upcoming: <b>${sessionsToday[0].sessionName}</b> in `;
                 let timeLeft = sessionsToday[0].startMins - currentMins;
                 if (timeLeft > 60) {
-                    text += `<b>${timeLeft / 60} hour(s)</b> and `;
+                    text += `<b>${Math.floor(timeLeft / 60)} hour(s)</b> and `;
                 }
                 text += `<b>${timeLeft % 60} minute(s)</b>`;
                 document.getElementById('next-meeting').innerHTML = text;
-                document.getElementById('launch-zoom').visibility = "visible";
+                document.getElementById('launch-zoom').style.display = "block";
+                link = "zoommtg://ucalgary.zoom.us/join?action=join&confno=" + sessionsToday[0].meetingId
+                password = sessionsToday[0].password
             }
         }
         else {
             document.getElementById('next-meeting').innerHTML = "No more sessions scheduled for today";
-            document.getElementById('launch-zoom').visibility = "hidden";
+            document.getElementById('launch-zoom').style.display = "none";
         }
     }
 
+    var weekdays = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
+
     function toMins(hour, min) {
-        return hour * 60 + min;
+        return hour * 60 + Number(min);
+    }
+
+    function padMins(m){
+        if (m < 10) { m = "0" + m }
+        return m
     }
 
     function viewSessionModal(dayOfWeek, startHour, startMin) {
