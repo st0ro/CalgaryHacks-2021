@@ -28,22 +28,20 @@
         <img src="icons/gear.png" class="w3-bar-item w3-button w3-hover-gray" style="position: absolute; bottom: 0px;"
             onclick="">
     </div>
-    <div style="margin-left: 80px;">
-        <!-- HARD CODE THE HEIGHT AND WIDHT TO PIXELS-->
-        <div class="w3-container w3-display-container-gray view-selector" id="view-home"
-            style="margin-left: 10%; height: 100%; width: 90%">
+    <div style="position: absolute; left: 80px; height: 100%; width: calc(100% - 80px)">
+        <div class="w3-display-container view-selector" id="view-home" style="height: 100%; display: block;">
             <!-- home page-->
-            <div class="w3-display-middle" style="text-align: center">
-                <div>
-                    <h1 id="time-display" style="font-size: 60px">16:40</h1>
-                    <h3 id="next-meeting">Upcoming: <b>SENG 471</b> in <b>15 minutes</b></h3>
-                    <button id="launch-zoom" class="w3-button w3-red" style="display: none; position: absolute; left: 200px;" onclick="openLink()">Join Zoom</button>
+            <div class="w3-display-middle w3-center" style="width: 80%;">
+                <h1 id="time-display" style="font-size: 60px">16:40</h1>
+                <h3 id="next-meeting">Upcoming: <b>SENG 471</b> in <b>15 minutes</b></h3>
+                <div class="w3-bar">
+                    <button id="launch-zoom" class="w3-button w3-red" style="display: none;" onclick="openLink()">Join Zoom</button>
                 </div>
             </div>
         </div>
-        <div class="w3-container view-selector" id="view-schedule" style="visibility: hidden;">
+        <div class="w3-panel view-selector" id="view-schedule" style="display: none;">
             <!--schedule page-->
-            <div style="font-size: 30px; padding-top: 8px; padding-bottom: 8px;">Schedule</div>
+            <div style="font-size: 30px">Schedule</div>
             <img src="icons/add.png" class="w3-button w3-hover-gray"
                 style="position: fixed; top:14px; height:36px; right:8px;"
                 onclick="document.getElementById('addToSchedule').style.display='block'">
@@ -145,7 +143,8 @@
                             <div style="position:fixed;padding-top: 5px;padding-bottom: 5px; top: 146px;right:170px">
                                 <b>Start Time: </b>
                             </div>
-                            <div style="position:fixed;padding-top: 5px;padding-bottom: 5px; top: 178px;right:170px"><b>End
+                            <div style="position:fixed;padding-top: 5px;padding-bottom: 5px; top: 178px;right:170px">
+                                <b>End
                                     Time: </b></div>
                         </div>
 
@@ -182,7 +181,7 @@
                 </div>
             </div>
         </div>
-        <div class="view-selector" id="view-3" style="visibility: hidden;">
+        <div class="view-selector" id="view-3" style="display: block;">
             <!--some page-->
         </div>
     </div>
@@ -236,9 +235,9 @@
     function selectView(selected) {
         var e = document.getElementsByClassName("view-selector");
         for (let i = 0; i < e.length; i++) {
-            e[i].style.visibility = "hidden";
+            e[i].style.display = "none";
         }
-        document.getElementById(selected).style.visibility = "visible";
+        document.getElementById(selected).style.display = "block";
     }
 
     function clock() {
@@ -275,7 +274,7 @@
     var password = "1234"
 
     function openLink() {
-        if(typeof password !== ""){
+        if (typeof password !== "") {
             clipboardy.writeSync(password)
         }
         shell.openExternal(link);
@@ -337,7 +336,7 @@
         return hour * 60 + Number(min);
     }
 
-    function padMins(m){
+    function padMins(m) {
         if (m < 10) { m = "0" + m }
         return m
     }
@@ -355,7 +354,7 @@
         document.getElementById('sessionNameModal').innerHTML = target.sessionName
         document.getElementById('meetingID').innerHTML = target.meetingId
         document.getElementById('meetingPassword').innerHTML = target.password
-        if (target.startMin < 10) { target.startMin  = "0" + target.startMin  }
+        if (target.startMin < 10) { target.startMin = "0" + target.startMin }
         document.getElementById('startTimeModal').innerHTML = target.startHour + ":" + target.startMin
         document.getElementById('endTimeModal').innerHTML = target.endHour + ":" + target.endMin
         document.getElementById('viewSession').style.display = 'block'
