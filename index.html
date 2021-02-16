@@ -21,13 +21,13 @@
     </style>
 </head>
 
-<body style="background-color: #36393F;" onload="clock();loadSchedule()">
+<body style="background-color: #36393F;" onload="clock();" > 
     <div class="w3-sidebar w3-bar-block" style="width:80px; background-color: #202225;">
         <img src="icons/home.png" class="w3-bar-item w3-button w3-hover-gray" onclick="selectView('view-home')">
-        <img src="icons/calender.png" class="w3-bar-item w3-button w3-hover-gray" onclick="selectView('view-schedule')">
+        <img src="icons/calender.png" class="w3-bar-item w3-button w3-hover-gray" onclick="selectView('view-schedule');loadSchedule()">
         <img src="icons/gear.png" class="w3-bar-item w3-button w3-hover-gray" onclick="selectView('view-settings')" style="position: absolute; bottom: 0px;">
     </div>
-    <div style="position: absolute; left: 80px; height: 100%; width: calc(100% - 80px)">
+    <div id = "main-window" style="position: absolute; left: 80px; height: 100%; width: calc(100% - 80px)">
         <div class="w3-display-container view-selector" id="view-home" style="height: 100%; display: block;">
             <!-- home page-->
             <div class="w3-display-middle w3-center" style="width: 80%;">
@@ -150,31 +150,33 @@
                     </div>
                 </div>
             </div>
-            <div class="w3-cell-row;">
-                <div class="w3-cell" style="position: relative;height:475px;text-align: center; width: 80px">
-                    <div style="position: fixed; top: 87px;right:845px">8:00</div>
-                    <div style="position: fixed; top: 172px;right:845px">10:00</div>
-                    <div style="position: fixed; top: 257px;right:845px">12:00</div>
-                    <div style="position: fixed; top: 342px;right:845px">14:00</div>
-                    <div style="position: fixed; top: 427px;right:845px">16:00</div>
-                    <div style="position: fixed; top: 511px;right:845px">18:00</div>
+            <div class="w3-row;" id ="weekly-schedule" style="position: relative;height:  85vh; width: 100%;">
+                <div class="w3-col w3-container" style="position: relative;text-align:center; line-height: 10vh;
+                        height: 85vh; width : 8%;min-width: 65px"><p style = "line-height: 14vh; vertical-align: middle">
+                    8:00
+                    10:00
+                    12:00
+                    14:00
+                    16:00
+                    18:00
+                    </p>
                 </div>
-                <div class="w3-cell" id="monday"
-                    style="background-color:#32353B; height:475px;text-align: center; width: 200px">
+                <div class="w3-col w3-container" id="monday"
+                    style="background-color: #202225;text-align: center;height: 85vh; width : 18%;min-width: 80px;">
                     Monday
                 </div>
-                <div class="w3-cell" id="tuesday" style="height:475px;text-align: center; width: 200px">
+                <div class="w3-col w3-container" id="tuesday" style="text-align: center;height: 85vh; width : 18%;min-width: 80px;">
                     Tuesday
                 </div>
-                <div class="w3-cell" id="wednesday"
-                    style="background-color:#32353B; height:475px;text-align: center; width: 200px">
+                <div class="w3-col w3-container" id="wednesday"
+                    style="background-color: #202225; text-align: center; height: 85vh; width :18%;min-width: 80px;">
                     Wednesday
                 </div>
-                <div class="w3-cell" id="thursday" style="height:475px;text-align: center; width: 200px">
+                <div class="w3-col w3-container" id="thursday" style="text-align: center;height: 85vh; width :18%;min-width: 80px;">
                     Thursday
                 </div>
-                <div class="w3-cell" id="friday"
-                    style="background-color:#32353B; height:475px;text-align: center; width: 200px">
+                <div class="w3-col w3-container" id="friday"
+                    style="background-color: #202225; text-align: center;height: 85vh; width : 18%;min-width: 80px;">
                     Friday
 
                 </div>
@@ -188,14 +190,16 @@
 </body>
 
 <script>
+    var loaded_sessions;
     function loadSchedule() {
         var e;
-        var sessions = loadSessions();
-        for (let i = 0; i < sessions.length; i++) {
-            var s = sessions[i];
-            var width;
+        loaded_sessions = loadSessions();
+        for (let i = 0; i < loaded_sessions.length; i++) {
+            var s = loaded_sessions[i];
+            var width = document.getElementById("monday").width;
             e = document.getElementById(s.dayOfWeek);
             var pixels = getSingularBlockLocation(s.startHour, s.startMin, s.endHour, s.endMin);
+            /*
             switch (s.dayOfWeek) {
                 case "monday":
                     width = 161;
@@ -212,7 +216,43 @@
                 case "friday":
                     width = 158;
                     break;
+                    
             }
+            */
+            e.innerHTML += `<div class = "${s.colour} w3-hover-light-gray"  style = "position:fixed;top: ` + pixels[0] + 'px; height:'
+                + (pixels[1] - pixels[0]) + 'px;width:' + width + 'px;"' + `" onclick="viewSessionModal('${s.dayOfWeek}', ${s.startHour}, ${s.startMin})"> ` + s.sessionName + '</div>';
+            console.log(s.sessionName + "  " + pixels[0] + "added");
+
+        }
+    }
+    
+    var rtime;
+    var timeout = false;
+    var delta = 250;
+    function resizeEvent(){
+        rtime = new Date();
+        if (timeout === false) {
+        timeout = true;
+        setTimeout(resizeend, delta);
+        }
+    }
+    function resizeend() {
+    if (new Date() - rtime < delta) {
+        setTimeout(resizeend, delta);
+    } else {
+        timeout = false;
+        console.log('Done resizing');
+        redrawSessions();
+    }               
+}
+
+    function redrawSessions(){
+        for (let i = 0; i < loaded_sessions.length; i++) {
+            var s = loaded_sessions[i];
+            var width = document.getElementById("monday").width;
+            e = document.getElementById(s.dayOfWeek);
+            var pixels = getSingularBlockLocation(s.startHour, s.startMin, s.endHour, s.endMin);
+            
             e.innerHTML += `<div class = "${s.colour} w3-hover-light-gray"  style = "position:fixed;top: ` + pixels[0] + 'px; height:'
                 + (pixels[1] - pixels[0]) + 'px;width:' + width + 'px;"' + `" onclick="viewSessionModal('${s.dayOfWeek}', ${s.startHour}, ${s.startMin})"> ` + s.sessionName + '</div>';
             console.log(s.sessionName + "  " + pixels[0] + "added");
@@ -229,7 +269,11 @@
     }
 
     function pixelLocation(hour, min) {
-        return ((((Number(hour) - 8) * 60 + Number(min)) / 600) * 424) + 95;
+        var schedule_height = document.getElementById("weekly-schedule").clientHeight;
+        var window_height = document.getElementById("main-window").clientHeight;
+        console.log(schedule_height);
+        console.log(window_height);
+        return ((((Number(hour) - 8) * 60 + Number(min)) / window_height) * schedule_height) + 95;
     }
 
     function selectView(selected) {
