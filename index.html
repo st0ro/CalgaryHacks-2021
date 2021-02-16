@@ -21,14 +21,14 @@
     </style>
 </head>
 
-<body style="background-color: #36393F;" onload="clock();loadSchedule()">
+<body style="background-color: #36393F;" onload="clock();loadSchedule()" onresize="resizeEvent()">
     <div class="w3-sidebar w3-bar-block" style="width:80px; background-color: #202225;">
         <img src="icons/home.png" class="w3-bar-item w3-button w3-hover-gray" onclick="selectView('view-home')">
         <img src="icons/calender.png" class="w3-bar-item w3-button w3-hover-gray" onclick="selectView('view-schedule')">
         <img src="icons/gear.png" class="w3-bar-item w3-button w3-hover-gray" style="position: absolute; bottom: 0px;"
             onclick="">
     </div>
-    <div style="position: absolute; left: 80px; height: 100%; width: calc(100% - 80px)">
+    <div id = "main-window" style="position: absolute; left: 80px; height: 100%; width: calc(100% - 80px)">
         <div class="w3-display-container view-selector" id="view-home" style="height: 100%; display: block;">
             <!-- home page-->
             <div class="w3-display-middle w3-center" style="width: 80%;">
@@ -151,7 +151,7 @@
                     </div>
                 </div>
             </div>
-            <div class="w3-row;" style="position: relative;height:  85vh; width: 100%;">
+            <div class="w3-row;" id ="weekly-schedule" style="position: relative;height:  85vh; width: 100%;">
                 <div class="w3-col w3-container" style="position: relative;text-align:center; line-height: 10vh;
                         height: 85vh; width : 8%;min-width: 65px"><p style = "line-height: 14vh; vertical-align: middle">
                     8:00
@@ -190,11 +190,62 @@
 </body>
 
 <script>
+    var loaded_sessions;
     function loadSchedule() {
         var e;
-        var sessions = loadSessions();
-        for (let i = 0; i < sessions.length; i++) {
-            var s = sessions[i];
+        loaded_sessions = loadSessions();
+        for (let i = 0; i < loaded_sessions.length; i++) {
+            var s = loaded_sessions[i];
+            var width;
+            e = document.getElementById(s.dayOfWeek);
+            var pixels = getSingularBlockLocation(s.startHour, s.startMin, s.endHour, s.endMin);
+            switch (s.dayOfWeek) {
+                case "monday":
+                    width = 161;
+                    break;
+                case "tuesday":
+                    width = 161;
+                    break;
+                case "wednesday":
+                    width = 170;
+                    break;
+                case "thursday":
+                    width = 161;
+                    break;
+                case "friday":
+                    width = 158;
+                    break;
+            }
+            e.innerHTML += `<div class = "${s.colour} w3-hover-light-gray"  style = "position:fixed;top: ` + pixels[0] + 'px; height:'
+                + (pixels[1] - pixels[0]) + 'px;width:' + width + 'px;"' + `" onclick="viewSessionModal('${s.dayOfWeek}', ${s.startHour}, ${s.startMin})"> ` + s.sessionName + '</div>';
+            console.log(s.sessionName + "  " + pixels[0] + "added");
+
+        }
+    }
+    
+    var rtime;
+    var timeout = false;
+    var delta = 250;
+    function resizeEvent(){
+        rtime = new Date();
+        if (timeout === false) {
+        timeout = true;
+        setTimeout(resizeend, delta);
+        }
+    }
+    function resizeend() {
+    if (new Date() - rtime < delta) {
+        setTimeout(resizeend, delta);
+    } else {
+        timeout = false;
+        console.log('Done resizing');
+        redrawSessions();
+    }               
+}
+
+    function redrawSessions(){
+        for (let i = 0; i < loaded_sessions.length; i++) {
+            var s = loaded_sessions[i];
             var width;
             e = document.getElementById(s.dayOfWeek);
             var pixels = getSingularBlockLocation(s.startHour, s.startMin, s.endHour, s.endMin);
@@ -231,7 +282,11 @@
     }
 
     function pixelLocation(hour, min) {
-        return ((((Number(hour) - 8) * 60 + Number(min)) / 600) * 424) + 95;
+        var schedule_height = document.getElementById("weekly-schedule").clientHeight;
+        var window_height = document.getElementById("main-window").clientHeight;
+        console.log(schedule_height);
+        console.log(window_height);
+        return ((((Number(hour) - 8) * 60 + Number(min)) / window_height) * schedule_height) + 95;
     }
 
     function selectView(selected) {
