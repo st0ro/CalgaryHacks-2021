@@ -24,10 +24,8 @@
 <body style="background-color: #36393F;" onload="clock();">
     <div class="w3-sidebar w3-bar-block" style="width:80px; background-color: #202225;">
         <img src="icons/home.png" class="w3-bar-item w3-button w3-hover-gray" onclick="selectView('view-home')">
-        <img src="icons/calender.png" class="w3-bar-item w3-button w3-hover-gray"
-            onclick="selectView('view-schedule');loadSchedule()">
-        <img src="icons/gear.png" class="w3-bar-item w3-button w3-hover-gray" style="position: absolute; bottom: 0px;"
-            onclick="">
+        <img src="icons/calender.png" class="w3-bar-item w3-button w3-hover-gray" onclick="selectView('view-schedule');loadSchedule()">
+        <img src="icons/gear.png" class="w3-bar-item w3-button w3-hover-gray" onclick="selectView('view-settings')" style="position: absolute; bottom: 0px;">
     </div>
     <div id="main-window" style="position: absolute; left: 80px; height: 100%; width: calc(100% - 80px)">
         <div class="w3-display-container view-selector" id="view-home" style="height: 100%; display: block;">
@@ -41,9 +39,9 @@
                 </div>
             </div>
         </div>
-        <div class="w3-panel view-selector" id="view-schedule" style="display: none; ">
+        <div class="w3-container view-selector" id="view-schedule" style="display: none;">
             <!--schedule page-->
-            <div style="font-size: 30px">Schedule</div>
+            <h2>Schedule</h2>
             <img src="icons/add.png" class="w3-button w3-hover-gray"
                 style="position: fixed; top:14px; height:36px; right:8px;"
                 onclick="document.getElementById('addToSchedule').style.display='block'">
@@ -189,8 +187,9 @@
                 </div>
             </div>
         </div>
-        <div class="view-selector" id="view-3" style="display: block;">
-            <!--some page-->
+        <div class="w3-container  view-selector" id="view-settings" style="display: none;">
+            <!--settings page-->
+            <h2>Settings</h2>
         </div>
     </div>
 </body>
