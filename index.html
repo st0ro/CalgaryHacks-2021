@@ -24,8 +24,10 @@
 <body style="background-color: #36393F;" onload="clock();">
     <div class="w3-sidebar w3-bar-block" style="width:80px; background-color: #202225;">
         <img src="icons/home.png" class="w3-bar-item w3-button w3-hover-gray" onclick="selectView('view-home')">
-        <img src="icons/calender.png" class="w3-bar-item w3-button w3-hover-gray" onclick="selectView('view-schedule');loadSchedule()">
-        <img src="icons/gear.png" class="w3-bar-item w3-button w3-hover-gray" onclick="selectView('view-settings')" style="position: absolute; bottom: 0px;">
+        <img src="icons/calender.png" class="w3-bar-item w3-button w3-hover-gray"
+            onclick="selectView('view-schedule');loadSchedule()">
+        <img src="icons/gear.png" class="w3-bar-item w3-button w3-hover-gray" onclick="selectView('view-settings')"
+            style="position: absolute; bottom: 0px;">
     </div>
     <div id="main-window" style="position: absolute; left: 80px; height: 100%; width: calc(100% - 80px)">
         <div class="w3-display-container view-selector" id="view-home" style="height: 100%; display: block;">
@@ -154,15 +156,15 @@
             </div>
             <div class="w3-row;" id="weekly-schedule" style="position: relative;height:  85vh; width: 100%;">
                 <div class="w3-col w3-container" style="position: relative;text-align:center;
-                        height: 85vh; width : 8%;min-width: 65px">
-                    <p style="line-height: 14vh; vertical-align: middle">
-                        8:00
-                        10:00
-                        12:00
-                        14:00
-                        16:00
-                        18:00
-                    </p>
+                         width : 8%;">
+                    <div style=" position: relative; height: 85vh; min-width:40px;vertical-align: middle">
+                        <div style="position: absolute; top : 6%  "> 08:00</div>
+                        <div style="position: absolute; top : 24%  "> 10:00</div>
+                        <div style="position: absolute; top : 42%  "> 12:00</div>
+                        <div style="position: absolute; top : 60%  "> 14:00</div>
+                        <div style="position: absolute; top : 78%  "> 16:00</div>
+                        <div style="position: absolute; top : 96%  "> 18:00</div>
+                    </div>
                 </div>
                 <div class="w3-col w3-container" id="monday"
                     style="position: relative;background-color: #202225;text-align: center;height: 85vh; width : 18%;min-width: 80px;">
@@ -203,9 +205,10 @@
             var s = loaded_sessions[i];
             e = document.getElementById(s.dayOfWeek);
             var pixels = getSingularBlockLocation(s.startHour, s.startMin, s.endHour, s.endMin);
-            e.innerHTML += `<div class = "${s.colour} w3-hover-light-gray"  style = "position:absolute; left: 0px;top: ` + pixels[0] + 'px; height:'
-                + (pixels[1] - pixels[0]) + 'px;width: 100%;' + `" onclick="viewSessionModal('${s.dayOfWeek}', ${s.startHour}, ${s.startMin})"> ` + s.sessionName + '</div>';
-            console.log(s.sessionName + "  " + pixels[0] + "added");
+            //CENTER THE TEXT 
+            e.innerHTML += `<div class = "${s.colour} w3-hover-light-gray"  style = "position:absolute; left: 0px;top: calc(` + pixels[3] + '% + 3%) ; height:'
+                + pixels[2] + '%;width: 100%;line-height: 7vh' + `" onclick="viewSessionModal('${s.dayOfWeek}', ${s.startHour}, ${s.startMin})"> ` + s.sessionName + '</div>';
+            console.log(`top is ${pixels[3]}`);
         }
     }
 
@@ -214,7 +217,8 @@
         var pixels = [];
         pixels[0] = pixelLocation(startHour, startMin);
         pixels[1] = pixelLocation(endHour, endMin);
-
+        pixels[2] = getHeightRatio(pixels[0], pixels[1]);
+        pixels[3] = getStartRatio(startHour, startMin);
         return pixels;
     }
 
@@ -224,6 +228,16 @@
         console.log(schedule_height);
         console.log(window_height);
         return ((((Number(hour) - 8) * 60 + Number(min)) / window_height) * schedule_height);
+    }
+
+    function getStartRatio(hour, min) {
+        var schedule_height = document.getElementById("weekly-schedule").clientHeight;
+        return ((((Number(hour) - 8) * 60 + Number(min)) /600)* 100);
+    }
+
+    function getHeightRatio(start_pixel, stop_pixel) {
+        var schedule_height = document.getElementById("weekly-schedule").clientHeight;
+        return ((Number(stop_pixel) - Number(start_pixel)) / schedule_height) * 100;
     }
 
     function selectView(selected) {
