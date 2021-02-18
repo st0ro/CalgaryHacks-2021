@@ -205,7 +205,6 @@
             var s = loaded_sessions[i];
             e = document.getElementById(s.dayOfWeek);
             var pixels = getSingularBlockLocation(s.startHour, s.startMin, s.endHour, s.endMin);
-            //CENTER THE TEXT 
             e.innerHTML += `<div class = "${s.colour} w3-hover-light-gray"  style = "position:absolute; left: 0px;top: calc(` + pixels[3] + '% + 3%) ; height:'
                 + pixels[2] + '%;width: 100%;line-height: 7vh' + `" onclick="viewSessionModal('${s.dayOfWeek}', ${s.startHour}, ${s.startMin})"> ` + s.sessionName + '</div>';
             console.log(`top is ${pixels[3]}`);
