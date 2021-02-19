@@ -23,11 +23,9 @@
 
 <body style="background-color: #36393F;" onload="clock();">
     <div class="w3-sidebar w3-bar-block" style="width:80px; background-color: #202225;">
-        <img src="icons/home.png" class="w3-bar-item w3-button w3-hover-gray" onclick="selectView('view-home')">
-        <img src="icons/calender.png" class="w3-bar-item w3-button w3-hover-gray"
-            onclick="selectView('view-schedule');loadSchedule()">
-        <img src="icons/gear.png" class="w3-bar-item w3-button w3-hover-gray" onclick="selectView('view-settings')"
-            style="position: absolute; bottom: 0px;">
+        <img src="icons/home.png" class="w3-bar-item w3-button w3-hover-gray w3-round" onclick="selectView('view-home')">
+        <img src="icons/calender.png" class="w3-bar-item w3-button w3-hover-gray w3-round" onclick="selectView('view-schedule');loadSchedule()">
+        <img src="icons/gear.png" class="w3-bar-item w3-button w3-hover-gray w3-round" onclick="selectView('view-settings')" style="position: absolute; bottom: 0px;">
     </div>
     <div id="main-window" style="position: absolute; left: 80px; height: 100%; width: calc(100% - 80px)">
         <div class="w3-display-container view-selector" id="view-home" style="height: 100%; display: block;">
@@ -35,9 +33,8 @@
             <div class="w3-display-middle w3-center" style="width: 80%;">
                 <h1 id="time-display" style="font-size: 60px">16:40</h1>
                 <h3 id="next-meeting">Upcoming: <b>SENG 471</b> in <b>15 minutes</b></h3>
-                <div class="w3-bar">
-                    <button id="launch-zoom" class="w3-button w3-red" style="display: none;" onclick="openLink()">Join
-                        Zoom</button>
+                <div class="">
+                    <button id="launch-zoom" class="w3-button w3-red w3-round" onclick="">Join Zoom</button>
                 </div>
             </div>
         </div>
@@ -116,7 +113,7 @@
                     <div>
                         <div>
                             <div id="sessionNameModal"
-                                style="position: fixed;padding-top: 10px;padding-bottom: 5p; top: 50px; left:140px">
+                                style="position: fixed;padding-top: 10px;padding-bottom: 5px; top: 50px; left:140px">
                             </div>
                             <div id="meetingID"
                                 style="position:fixed; padding-top: 5px;padding-bottom: 5px;top: 82px; left:140px">
@@ -133,7 +130,7 @@
                         </div>
 
                         <div>
-                            <div style="position:fixed;padding-top: 10px;padding-bottom: 5p; top: 50px;right:170px">
+                            <div style="position:fixed;padding-top: 10px;padding-bottom: 5px; top: 50px;right:170px">
                                 <b>Session Name: </b>
                             </div>
                             <div style="position:fixed;padding-top: 5px;padding-bottom: 5px; top: 82px;right:170px">
@@ -192,6 +189,13 @@
         <div class="w3-container  view-selector" id="view-settings" style="display: none;">
             <!--settings page-->
             <h2>Settings</h2>
+            <p><label>Zoom Username (leave blank to use Zoom default)</label>
+            <input class="w3-input w3-border w3-round" id="zoom-username" type="text"></p>
+            <input class="w3-check" type="checkbox">
+            <label>Copy Zoom password to clipboard if available</label>
+            <div class="w3-panel w3-center">
+                <button id="save-settings" class="w3-button w3-red w3-round" onclick="">Save Settings</button>
+            </div>
         </div>
     </div>
 </body>
